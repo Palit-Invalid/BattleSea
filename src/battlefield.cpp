@@ -24,8 +24,9 @@ int ship::getSize()
 
 
 
-battlefield::battlefield(int size, RenderWindow& window, int width, int height)
+battlefield::battlefield(int size, RenderWindow& window, int width, int height, int offset)
 {
+    this->offset = offset;
     this->width = width;
     this->height = height;
     this->window = &window;
@@ -56,7 +57,6 @@ battlefield::~battlefield()
 
 void battlefield::print_battlefield()
 {
-    this->window->clear(Color::White);
     ConvexShape vertical;
     vertical.setPointCount(4);
     vertical.setPoint(0, Vector2f(0.f, 0));
@@ -66,7 +66,7 @@ void battlefield::print_battlefield()
     vertical.setFillColor(Color::Black);
     for (int i = 1; i <= 10; i++)
     {
-        vertical.setPosition(i*width/(size+1), 0);
+        vertical.setPosition((i*width/(size+1))+offset, 0);
         this->window->draw(vertical);
     }
 
@@ -80,7 +80,7 @@ void battlefield::print_battlefield()
 
     for (int i = 1; i <= 10; i++)
     {
-        horizontal.setPosition(0, i*height/(size+1));
+        horizontal.setPosition(offset, i*height/(size+1));
         this->window->draw(horizontal);
     }
 
@@ -103,7 +103,7 @@ void battlefield::print_battlefield()
     for (int i = 1; i <= 10; i++)
     {
         words[i].setFillColor(Color::Black);
-        words[i].setPosition(5, i*height/(size+1));
+        words[i].setPosition(offset+5, i*height/(size+1));
         this->window->draw(words[i]);
     }
 
@@ -124,7 +124,7 @@ void battlefield::print_battlefield()
     for (int i = 1; i <= 10; i++)
     {
         numbers[i].setFillColor(Color::Black);
-        numbers[i].setPosition(i*width/(size+1), 0);
+        numbers[i].setPosition((i*width/(size+1))+offset, 0);
         this->window->draw(numbers[i]);
     }
 }
@@ -153,7 +153,7 @@ void battlefield::setup_ships(ship ships[])
                 ships[i].cord_2 = cord_2;
                 for (int j = 0; j < ships[i].getSize(); j++, cord_2++)
                 {
-                    gridView[cord_1][cord_2] = 1;
+                    gridView[cord_1][cord_2] = hit;
                 }
                 i++;
             }
@@ -177,7 +177,7 @@ void battlefield::setup_ships(ship ships[])
                 ships[i].cord_2 = cord_2;
                 for (int j = 0; j < ships[i].getSize(); j++, cord_1++)
                 {
-                    gridView[cord_1][cord_2] = 1;
+                    gridView[cord_1][cord_2] = hit;
                 }
                 i++;
             }
@@ -189,7 +189,7 @@ void battlefield::print_shot(Color color, int x, int y)
 {
     CircleShape circle(10.f);
     circle.setFillColor(color);
-    circle.setPosition(x*width/11+width/66, y*height/11+height/66);
+    circle.setPosition((x*width/11+width/66)+offset, y*height/11+height/66);
     this->window->draw(circle);
 }
 
@@ -211,13 +211,13 @@ void battlefield::print_x(Color color, int x, int y)
     cross.setPoint(11, Vector2f(10, 12));
 
     cross.setFillColor(color);
-    cross.setPosition(x*width/11, y*height/11);
+    cross.setPosition((x*width/11)+offset, y*height/11);
     this->window->draw(cross);
 }
 
 status battlefield::toShot(int x, int y)
 {
-    if (gridView[x][y] == 1)
+    if (gridView[x][y] == hit)
     {
         return hit;
     }
@@ -240,6 +240,32 @@ void battlefield::printShips()
             }
         }
         std::cout << std::endl;
+    }
+}
+
+status battlefield::getXY(int x, int y)
+{
+    if (gridView[x][y] == hit)
+    {
+        return hit;
+    }
+    else
+    {
+        return miss;
+    }
+}
+
+void battlefield::botShot(battlefield& enemy)
+{
+    int x = (rand() % 10) + 1;
+    int y = (rand() % 10) + 1;
+    if (enemy.getXY(x, y) == hit)
+    {
+        print_x(Color::Red, x, y);
+    }
+    else
+    {
+        print_shot(Color::Black, x, y);
     }
 }
 

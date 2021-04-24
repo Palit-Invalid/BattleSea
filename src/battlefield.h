@@ -8,7 +8,7 @@ using namespace sf;
 
 enum rotate {vertical = 0, horizontal = 1};
 
-enum status {miss = 0, hit = 1};
+enum status {miss = 0, alreadyShot = 1, hit = 2};
 
 class ship
 {
@@ -29,7 +29,7 @@ public:
 class battlefield
 {
 public:
-    battlefield(int size, RenderWindow& window, int width, int height);
+    battlefield(int size, RenderWindow& window, int width, int height, int offset);
     ~battlefield();
     void print_battlefield();
     void print_shot(Color color, int x, int y);
@@ -37,12 +37,16 @@ public:
     status toShot(int x, int y);
     void setup_ships(ship ships[]);
     void printShips();
+    void botShot(battlefield& enemy);
+    status getXY(int x, int y);
+    void setXY(int x, int y);
 
 
 private:
     int** gridView;
     int size;
     int width, height; //size of window
+    int offset;
     RenderWindow* window;
     ship ships[];
 
