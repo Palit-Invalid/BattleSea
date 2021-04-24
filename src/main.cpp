@@ -25,30 +25,35 @@ int main()
         ship(1)
     };
 
+    RenderWindow window(VideoMode(width, height), "Battle sea", Style::Default);
+    battlefield btl(10, window, width, height);
+    btl.print_battlefield();
+    btl.setup_ships(ships);
+    btl.printShips();
+
     for (int i = 0; i < 10; i++)
     {
         if (ships[i].getRotate() == vertical)
         {
             std::cout << "Ships №: " << i << std::endl;
             std::cout << "Rotate: Vertical" << endl;
+            std::cout << "Cordinates: " << ships[i].cord_1 << ", " << ships[i].cord_2 << std::endl;
+            std::cout << "Size: " << ships[i].getSize() << endl;
             std::cout << std::endl;
         }
         else
         {
             std::cout << "Ships №: " << i << std::endl;
             std::cout << "Rotate: Horizontal" << endl;
+            std::cout << "Cordinates: " << ships[i].cord_1 << ", " << ships[i].cord_2 << std::endl;
+            std::cout << "Size: " << ships[i].getSize() << endl;
             std::cout << std::endl;
         }
-
     }
 
-    RenderWindow window(VideoMode(width, height), "Battle sea", Style::Default);
-    battlefield btl(10, window, width, height);
     while (window.isOpen())
     {
         Event event;
-        btl.print_battlefield();
-        btl.setup_ships(ships);
         window.display();
 
         while (window.waitEvent(event))
@@ -62,11 +67,11 @@ int main()
                 {
                     if (btl.toShot(x, y) == hit)
                     {
-                        btl.print_shot(Color::Red, x, y);
+                        btl.print_x(Color::Red, x, y);
                     }
                     else if (btl.toShot(x, y) == miss)
                     {
-                        btl.print_x(Color::Black, x, y);
+                        btl.print_shot(Color::Black, x, y);
                     }
                 }
                 window.display();

@@ -35,6 +35,14 @@ battlefield::battlefield(int size, RenderWindow& window, int width, int height)
     {
         gridView[i] = new int[size+2];
     }
+
+    for (int i = 0; i < size+2; i++)
+    {
+        for (int j = 0; j < size+2; j++)
+        {
+            gridView[i][j] = 0;
+        }
+    }
 }
 
 battlefield::~battlefield()
@@ -179,7 +187,7 @@ void battlefield::setup_ships(ship ships[])
 
 void battlefield::print_shot(Color color, int x, int y)
 {
-    CircleShape circle(15.f);
+    CircleShape circle(10.f);
     circle.setFillColor(color);
     circle.setPosition(x*width/11+width/66, y*height/11+height/66);
     this->window->draw(circle);
@@ -216,6 +224,22 @@ status battlefield::toShot(int x, int y)
     else
     {
         return miss;
+    }
+}
+
+void battlefield::printShips()
+{
+    for (int i = 1; i <= 10; i++)
+    {
+        for (int j = 1; j <= 10; j++)
+        {
+            std::cout << gridView[j][i] << " ";
+            if (gridView[i][j] == 1)
+            {
+                print_shot(Color::Blue, i, j);
+            }
+        }
+        std::cout << std::endl;
     }
 }
 

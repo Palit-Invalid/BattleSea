@@ -10,7 +10,7 @@ SOURCES += \
 HEADERS += \
     battlefield.h
 
-unix:!macx: LIBS += -L$$PWD/../../coding/SFML-2.5.1/lib/ -lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio
+unix:!macx: LIBS += -L$$PWD/../../../coding/SFML-2.5.1/lib/ -lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio
 
-INCLUDEPATH += $$PWD/../../coding/SFML-2.5.1/include/
-DEPENDPATH += $$PWD/../../coding/SFML-2.5.1/include/
+INCLUDEPATH += $$PWD/../../../coding/SFML-2.5.1/include/
+DEPENDPATH += $$PWD/../../../coding/SFML-2.5.1/include/

@@ -2,6 +2,7 @@
 #define BATTLEFIELD_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 using namespace sf;
 
@@ -35,6 +36,7 @@ public:
     void print_x(Color color, int x, int y);
     status toShot(int x, int y);
     void setup_ships(ship ships[]);
+    void printShips();
 
 
 private:
